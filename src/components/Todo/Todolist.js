@@ -11,13 +11,9 @@ const styles = {
 };
 
 
-const TodoList = ({ todos }) => {
+const TodoList = (props) => {
 
-  const inputHandler = () => {
-    console.log(123);
-    
-  }
-  
+  const {todos, onToggle} = props;
 
   return (
     <ul style={styles.ul}>
@@ -27,7 +23,7 @@ const TodoList = ({ todos }) => {
             key={item.id} 
             todo={item} 
             index={index} 
-            onChange={inputHandler}  
+            onChange={onToggle}  
             />
         )
       })}
@@ -37,6 +33,7 @@ const TodoList = ({ todos }) => {
 
 TodoList.propTypes = {
   todos: PropTypes.arrayOf(PropTypes.object).isRequired,
+  onToggle: PropTypes.func.isRequired,
 };
 
 export default TodoList;
