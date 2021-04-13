@@ -17,3 +17,18 @@ code {
   margin: 0 auto;
   width: 600px;
 }
+
+.rm {
+  background: #e83114;
+  border-radius: 50%;
+  color: #fff;
+  border: none;
+  width: 20px;
+  height: 20px;
+  outline: none;
+}
+
+.rm:focus,
+.rm:active {
+  outline: none;
+}
