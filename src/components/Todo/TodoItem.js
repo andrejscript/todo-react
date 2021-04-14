@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import Context from '../../Context';
 
 const styles = {
   li: {
@@ -17,12 +18,19 @@ const styles = {
 };
 
 const TodoItem = ({ todo, index, onChange }) => {
-  console.log('todo', todo);
+
+const classes = [];
+
+if (todo.completed === true) {
+  classes.push('done');
+}
+
   return (
     <li style={styles.li}>
-      <span>
+      <span className={classes.join(' ')}>
         <input
           type='checkbox'
+          checked={todo.completed}
           style={styles.input}
           onChange={() => onChange(todo.id)}
         />
