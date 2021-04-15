@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import Context from '../../Context';
 
@@ -18,12 +18,12 @@ const styles = {
 };
 
 const TodoItem = ({ todo, index, onChange }) => {
+  const {removeTodo} = useContext(Context);
+  const classes = [];
 
-const classes = [];
-
-if (todo.completed === true) {
-  classes.push('done');
-}
+  if (todo.completed === true) {
+    classes.push('done');
+  }
 
   return (
     <li style={styles.li}>
@@ -37,7 +37,7 @@ if (todo.completed === true) {
         <strong>{index + 1}</strong>. &nbsp;
         {todo.title}
       </span>
-      <button className='rm'>&times;</button>
+      <button className='rm' onClick={removeTodo.bind(null, todo.id)}>&times;</button>
     </li>
   );
 };
@@ -45,7 +45,7 @@ if (todo.completed === true) {
 TodoItem.propTypes = {
   todo: PropTypes.object.isRequired,
   index: PropTypes.number,
-  onChange: PropTypes.func.isRequired
+  onChange: PropTypes.func.isRequired,
 };
 
 export default TodoItem;

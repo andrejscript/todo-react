@@ -36,3 +36,7 @@ code {
 .done {
   text-decoration: line-through;
 }
+
+.add-form {
+  margin: 1rem auto;
+}
