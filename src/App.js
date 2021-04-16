@@ -25,12 +25,25 @@ function App() {
     setTodos(todos.filter(todo => todo.id !== id))
   }
 
+  function addTodo(title) {
+    setTodos(todos.concat([
+      {
+        title,
+        completed: false,
+        id: Date.now()
+      }
+    ]))
+    console.log(todos);
+  }
+
   return (
     <Context.Provider value={{removeTodo}}>
       <div className='wrapper'>
         <h1>React tutorial</h1>
-        <AddTodo />
-        {todos.length ? <TodoList todos={todos} onToggle={toggleTodo} /> : <p>no todos</p>}
+        <AddTodo onCreate={addTodo} />
+        {todos.length ? <TodoList todos={todos} onToggle={toggleTodo} /> : <p>No todos</p>}
+
+        {/* <input value={'ss'} /> */}
 
       </div>
     </Context.Provider>

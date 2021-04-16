@@ -11,9 +11,7 @@ const styles = {
 };
 
 
-const TodoList = (props) => {
-
-  const {todos, onToggle} = props;
+const TodoList = ({todos, onToggle}) => {
 
   return (
     <ul style={styles.ul}>
