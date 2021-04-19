@@ -1,14 +1,28 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import TodoList from './components/Todo/Todolist';
-import AddTodo from './components/Todo/AddTodo';
+// import AddTodo from './components/Todo/AddTodo';
+import SearchPlugin from './components/Search/SearchPlugin';
 import Context from './Context';
+import Loader from './Loader';
+
+const AddTodo = React.lazy(() => import('./Todo/AddTodo'));
 
 function App() {
-  const [todos, setTodos] = React.useState([
-    { title: 'buy meal', completed: false, id: 1 },
-    { title: 'clean the room', completed: false, id: 2 },
-    { title: 'wash the dishes', completed: false, id: 3 },
-  ]);
+  const [todos, setTodos] = React.useState([]);
+  const [loading, setLoading] = React.useState(true);
+
+  useEffect(() => {
+    fetch('https://jsonplaceholder.typicode.com/todos?_limit=15')
+      .then((response) => response.json())
+      .then((todos) => {
+        setTimeout(() => {
+          console.log(todos);
+
+          setTodos(todos);
+          setLoading(false);
+        }, 1500);
+      });
+  }, []);
 
   const toggleTodo = (id) => {
     setTodos(
@@ -22,29 +36,43 @@ function App() {
   };
 
   const removeTodo = (id) => {
-    setTodos(todos.filter(todo => todo.id !== id))
-  }
+    setTodos(todos.filter((todo) => todo.id !== id));
+  };
 
   function addTodo(title) {
-    setTodos(todos.concat([
-      {
-        title,
-        completed: false,
-        id: Date.now()
-      }
-    ]))
+    setTodos(
+      todos.concat([
+        {
+          title,
+          completed: false,
+          id: Date.now(),
+        },
+      ])
+    );
     console.log(todos);
   }
 
+  const filterItems = (value) => {
+    console.log(value);
+  };
+
   return (
-    <Context.Provider value={{removeTodo}}>
+    <Context.Provider value={{ removeTodo }}>
       <div className='wrapper'>
         <h1>React tutorial</h1>
-        <AddTodo onCreate={addTodo} />
-        {todos.length ? <TodoList todos={todos} onToggle={toggleTodo} /> : <p>No todos</p>}
+        <React.Suspense>
+          <AddTodo onCreate={addTodo} />
+        </React.Suspense>
 
-        {/* <input value={'ss'} /> */}
+        {loading && <Loader />}
 
+        {todos.length ? (
+          <TodoList todos={todos} onToggle={toggleTodo} />
+        ) : loading ? null : (
+          <p>No todos</p>
+        )}
+
+        <SearchPlugin onFilter={filterItems} />
       </div>
     </Context.Provider>
   );
