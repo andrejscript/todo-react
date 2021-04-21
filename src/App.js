@@ -5,7 +5,14 @@ import SearchPlugin from './components/Search/SearchPlugin';
 import Context from './Context';
 import Loader from './Loader';
 
-const AddTodo = React.lazy(() => import('./Todo/AddTodo'));
+const AddTodo = React.lazy(
+  () =>
+    new Promise((resolve) => {
+      setTimeout(() => {
+        resolve(import('./components/Todo/AddTodo'));
+      }, 3000);
+    })
+);
 
 function App() {
   const [todos, setTodos] = React.useState([]);
@@ -16,8 +23,6 @@ function App() {
       .then((response) => response.json())
       .then((todos) => {
         setTimeout(() => {
-          console.log(todos);
-
           setTodos(todos);
           setLoading(false);
         }, 1500);
@@ -60,7 +65,7 @@ function App() {
     <Context.Provider value={{ removeTodo }}>
       <div className='wrapper'>
         <h1>React tutorial</h1>
-        <React.Suspense>
+        <React.Suspense fallback={<p>Loading...</p>}>
           <AddTodo onCreate={addTodo} />
         </React.Suspense>
 
