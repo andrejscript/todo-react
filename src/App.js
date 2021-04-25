@@ -2,8 +2,8 @@ import React, { useEffect } from 'react';
 import TodoList from './components/Todo/Todolist';
 // import AddTodo from './components/Todo/AddTodo';
 import SearchPlugin from './components/Search/SearchPlugin';
-import Context from './Context';
-import Loader from './Loader';
+import Context from './components/Context/Context';
+import Loader from './components/Loader/Loader';
 
 const AddTodo = React.lazy(
   () =>
@@ -19,7 +19,7 @@ function App() {
   const [loading, setLoading] = React.useState(true);
 
   useEffect(() => {
-    fetch('https://jsonplaceholder.typicode.com/todos?_limit=15')
+    fetch('https://jsonplaceholder.typicode.com/todos?_limit=7')
       .then((response) => response.json())
       .then((todos) => {
         setTimeout(() => {
@@ -54,7 +54,6 @@ function App() {
         },
       ])
     );
-    console.log(todos);
   }
 
   const filterItems = (value) => {
